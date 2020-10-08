@@ -1,5 +1,4 @@
-import { Model, Optional, DataTypes, Sequelize } from "sequelize";
-import { Json } from "sequelize/types/lib/utils";
+import { Model, DataTypes } from "sequelize";
 import { database } from './index';
 import { Transport } from "./transport";
 
@@ -61,8 +60,8 @@ Travel.init({
 
 }, { tableName: 'travel', sequelize: database, });
 
-Travel.sync({ force: true }).then(() => {
-    Travel.belongsTo(Transport);
+Travel.sync({ force: false }).then(() => {
+    Travel.belongsTo(Transport, { as: 'transport' });
 
     console.log('travel synced');
 });

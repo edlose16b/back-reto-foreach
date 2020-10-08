@@ -1,10 +1,7 @@
 import { Request, Response } from "express";
 import { ITravel, Travel } from "../models/travel";
 import { Transport } from '../models/transport';
-import { Op } from "sequelize";
-import { values } from "sequelize/types/lib/operators";
 import { calculatekgO2EmissionPerPerson } from "../utils";
-import { json } from "body-parser";
 
 export default class TravelController {
 
@@ -15,16 +12,24 @@ export default class TravelController {
      */
     public async index(req: Request, res: Response) {
 
-        let total = await Travel.findAll();
+        let travels = await Travel.findAll({
+            include: [{ model: Transport, as: 'transport', attributes: ['name'] }]
+        });
 
-        res.send(total);
+        let data = travels.map((travel: any) => ({ ...travel.toJSON(), transport: travel.transport.name }));
+
+
+        res.json(data);
     }
 
     public async store(req: Request, res: Response) {
 
+        console.log('[POST] new Post Request', req.body);
         let { startingPoint, arrivalPoint, transportId, kilometersTraveled, passengers, roundTrip } = req.body;
 
-        let transport = await Transport.findByPk(transportId);
+        let transport = await Transport.findByPk(parseInt(transportId));
+
+        console.log('Transporte revisado ', transport);
 
         if (transport == null) return res.status(404).json();
 

@@ -12,8 +12,10 @@ export class Routes {
 
     public routes(app: Application) {
         app.get('/', (_, res) => res.send('Hola .forEach'));
+        
         app.get(`/api/travels`, this.travelController.index);
         app.post(`/api/travels`, this.travelController.store);
+
         app.get(`/api/transportations`, this.transportController.index);
 
     }
