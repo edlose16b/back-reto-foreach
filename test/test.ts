@@ -23,7 +23,7 @@ describe('test calculate kgO2Emission per person', function () {
         assert.strictEqual(calculatekgO2EmissionPerPerson(0.21, 6, 10, false), 0.350);
     });
 
-    it('should return 0.780 when use Bus Transantiafo with 1 trabajador recorriendo 10 km in a round trip ida y vuelta', function () {
+    it('should return 0.780 when use Bus Transantiafo with 1 worker recorriendo 10 km in a round trip', function () {
         assert.strictEqual(calculatekgO2EmissionPerPerson(0.039, 1, 10, true), 0.780);
     });
 
